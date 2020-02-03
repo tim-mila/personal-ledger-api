@@ -5,3 +5,8 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
+
+  flyway:
+    sql-migration-prefix: "psql-"
+    sql-migration-separator: "__"
+#    schemas: "mf"
