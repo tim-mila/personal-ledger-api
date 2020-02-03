@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Import local private environment variables
+source ./local-env-private
+
+# Setup docker variables
+DATABASE_NAME=personal_ledger
+DOCKER_CONTAINER="personal-ledger-postgres"
+DOCKER_POSTGRES_PORT=5432
+DOCKER_VOLUME_NAME="personal-ledger-volume"
+
+# Set logging directory
+export LOGGING_DIRECTORY=./logs
+
+# JDBC connection settings for shared migration engine database
+export JDBC_DATABASE_URL="jdbc:postgresql://localhost:${DOCKER_POSTGRES_PORT}/${DATABASE_NAME}?currentSchema=pl&reWriteBatchedInserts=true"
+export JDBC_DATABASE_USERNAME=pl_user
+export JDBC_DATABASE_PASSWORD=abc123
