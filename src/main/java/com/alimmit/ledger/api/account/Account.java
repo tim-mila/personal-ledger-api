@@ -1,6 +1,7 @@
 package com.alimmit.ledger.api.account;
 
 import com.alimmit.ledger.api.util.StringUtils;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -47,6 +48,13 @@ class Account extends AbstractPersistable<UUID> {
     @Column(name = "last_modified_date")
     private Date modifiedDate;
 
+    /**
+     * System populated created by identifier
+     */
+    @CreatedBy
+    @Column(name = "owner")
+    private String owner;
+
     public static Account create(final String name) {
         return create(name, StringUtils.EMPTY);
     }
@@ -90,6 +98,14 @@ class Account extends AbstractPersistable<UUID> {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(final String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Account{" + "name='" + name + '\'' + "} " + super.toString();
@@ -102,11 +118,14 @@ class Account extends AbstractPersistable<UUID> {
         if (!super.equals(o)) return false;
         final Account account = (Account) o;
         return name.equals(account.name) &&
-                Objects.equals(description, account.description);
+                Objects.equals(description, account.description) &&
+                createdDate.equals(account.createdDate) &&
+                modifiedDate.equals(account.modifiedDate) &&
+                owner.equals(account.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description);
+        return Objects.hash(super.hashCode(), name, description, createdDate, modifiedDate, owner);
     }
 }

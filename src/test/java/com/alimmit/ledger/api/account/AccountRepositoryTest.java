@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +22,7 @@ class AccountRepositoryTest extends RepositoryTest {
         final Account account1 = new Account();
         account1.setName("Test Account");
         account1.setDescription("Account repository test account");
+        account1.setOwner("test_owner");
         testEntityManager.persist(account1);
     }
 
@@ -35,6 +37,7 @@ class AccountRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @WithMockUser("test_user")
     void assertFullCrud() {
         Account account1 = accountRepository.save(Account.create("Foo"));
 

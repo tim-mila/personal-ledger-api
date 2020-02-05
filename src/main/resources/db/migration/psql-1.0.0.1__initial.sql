@@ -4,7 +4,9 @@ CREATE TABLE account (
     description character varying(255),
     created_date timestamp without time zone not null,
     last_modified_date timestamp without time zone not null,
+    owner character varying not null,
     constraint pkey_account primary key(id)
 );
 
 create index idx_account_name on account (name);
+create index idx_account_owner on account (owner);
