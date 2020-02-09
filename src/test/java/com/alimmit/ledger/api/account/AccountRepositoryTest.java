@@ -1,11 +1,11 @@
 package com.alimmit.ledger.api.account;
 
 import com.alimmit.ledger.api.RepositoryTest;
+import com.alimmit.ledger.api.WithMockJwt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ class AccountRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @WithMockUser("test_user")
+    @WithMockJwt
     void assertFullCrud() {
         Account account1 = accountRepository.save(Account.create("Foo"));
 
@@ -58,4 +58,5 @@ class AccountRepositoryTest extends RepositoryTest {
 
         assertFalse(accountRepository.findByName("Foo").isPresent());
     }
+
 }
