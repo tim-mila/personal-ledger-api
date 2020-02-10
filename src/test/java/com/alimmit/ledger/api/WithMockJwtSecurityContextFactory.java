@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 public class WithMockJwtSecurityContextFactory implements WithSecurityContextFactory<WithMockJwt> {
 
@@ -15,7 +15,20 @@ public class WithMockJwtSecurityContextFactory implements WithSecurityContextFac
     public SecurityContext createSecurityContext(WithMockJwt mockJwt) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        Authentication auth = new JwtAuthenticationToken(Jwt.withTokenValue("test").subject("mock").audience(Collections.singletonList("personal-ledger")).claim("test", "test").header("Bearer", "test").build());
+        Jwt.Builder builder = Jwt.withTokenValue(mockJwt.tokenValue())
+                .subject(mockJwt.subject())
+                .audience(Arrays.asList(mockJwt.audiences()));
+
+        for (JwtClaim claim : mockJwt.claims()) {
+            builder.claim(claim.name(), claim.value());
+        }
+
+        for (JwtHeader header : mockJwt.headers()) {
+            builder.header(header.name(), header.value());
+        }
+
+        Authentication auth = new JwtAuthenticationToken(builder.build());
+
         context.setAuthentication(auth);
         return context;
     }

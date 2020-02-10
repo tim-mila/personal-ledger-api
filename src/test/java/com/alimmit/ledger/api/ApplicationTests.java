@@ -14,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 		"auth0.audience = test",
 		"spring.security.oauth2.resourceserver.jwt.issuer-uri = https://alimmit.auth0.com/"
 })
-class ApplicationTests {
+public class ApplicationTests {
 
 	@Test
 	void contextLoads() {

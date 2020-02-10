@@ -8,4 +8,14 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = WithMockJwtSecurityContextFactory.class)
 public @interface WithMockJwt {
+
+    String subject();
+
+    String tokenValue();
+
+    String[] audiences();
+
+    JwtClaim[] claims();
+
+    JwtHeader[] headers();
 }

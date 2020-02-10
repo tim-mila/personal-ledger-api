@@ -1,29 +1,31 @@
 package com.alimmit.ledger.api.account;
 
-import com.alimmit.ledger.api.RepositoryTest;
+import com.alimmit.ledger.api.ApplicationTests;
+import com.alimmit.ledger.api.JwtClaim;
+import com.alimmit.ledger.api.JwtHeader;
 import com.alimmit.ledger.api.WithMockJwt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AccountRepositoryTest extends RepositoryTest {
+class AccountRepositoryTest extends /*RepositoryTest*/ ApplicationTests {
 
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+//    @Autowired
+//    private TestEntityManager testEntityManager;
 
     @BeforeEach
     void setUp() {
         final Account account1 = new Account();
         account1.setName("Test Account");
         account1.setDescription("Account repository test account");
-        account1.setOwner("test_owner");
-        testEntityManager.persist(account1);
+        account1.setOwner("test");
+//        testEntityManager.persist(account1);
+        accountRepository.save(account1);
     }
 
     @Test
@@ -32,12 +34,13 @@ class AccountRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @WithMockJwt(tokenValue = "abc123", subject = "test", audiences = { "personal-ledger" }, claims = { @JwtClaim(name = "test_claim", value = "test_claim_value")}, headers = { @JwtHeader(name = "Authorization", value = "Bearer test")})
     void findByName() {
         assertEquals("Test Account", accountRepository.findByName("Test Account").orElseThrow(IllegalStateException::new).getName());
     }
 
     @Test
-    @WithMockJwt
+    @WithMockJwt(tokenValue = "abc123", subject = "test", audiences = { "personal-ledger" }, claims = { @JwtClaim(name = "test_claim", value = "test_claim_value")}, headers = { @JwtHeader(name = "Authorization", value = "Bearer test")})
     void assertFullCrud() {
         Account account1 = accountRepository.save(Account.create("Foo"));
 

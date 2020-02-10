@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
         "spring.flyway.sql-migration-prefix = psql-",
         "spring.flyway.sql-migration-separator = __",
         "auth0.audience = test",
-        "spring.security.oauth2.resourceserver.jwt.issuer-uri = 'https://test.auth0.com'"
+        "spring.security.oauth2.resourceserver.jwt.issuer-uri = 'https://alimmit.auth0.com'"
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class RepositoryTest {
